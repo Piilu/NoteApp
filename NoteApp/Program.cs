@@ -1,4 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using NoteApp.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
