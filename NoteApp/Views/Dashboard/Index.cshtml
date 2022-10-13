@@ -2,9 +2,8 @@
     ViewData["Title"] = "Authorized note view";
 }
 
-<h1 class="display-4">Welcome</h1>
-<p>Testing notes page</p>
-<button style="margin:1em; margin-left:0" class="btn btn-default">New Note</button>
+<partial name="_Modal" />
+<button id="add-new-note" style="margin:1em; margin-left:0" class="btn btn-default">New Note</button>
  <div class="row product-list">
     <partial name="_Item" /> 
     <partial name="_Item" /> 
@@ -15,3 +14,13 @@
     <partial name="_Item" /> 
     <partial name="_Item" /> 
 </div>
+
+@section Scripts
+{
+    <script>
+    $("#add-new-note").click(function(){
+        $("#newNote-modal").modal('show');
+        console.log("Testing");
+    })
+    </script>
+}

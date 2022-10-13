@@ -1,7 +1,18 @@
-﻿<!-- BEGIN HEADER -->
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!-- BEGIN HEADER -->
 <div class="header">
     <div class="container">
-        <a class="site-logo" asp-controller="Home">NoteApp</a>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a class="site-logo" asp-controller="Dashboard">NoteApp</a>
+        }
+        else
+        {
+            <a class="site-logo" asp-controller="Home">NoteApp</a>
+        }
 
         <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
 

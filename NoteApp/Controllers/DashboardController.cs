@@ -1,15 +1,27 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NoteApp.Data;
 
 namespace NoteApp.Controllers
 {
     [Authorize]
     public class DashboardController : Controller
     {
+        private readonly ApplicationDbContext context;
+
+        public DashboardController(ApplicationDbContext context)
+        {
+            this.context = context;
+        } 
+
         // GET: DashboardController
         public ActionResult Index()
         {
+            //
+            var user = User.Identity.Name;
+            var items = context.Notes.Where(x => x.Id == 1).ToList();
             return View();
         }
 
