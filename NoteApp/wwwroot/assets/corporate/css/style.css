@@ -1191,6 +1191,7 @@ steps block and steps block elements
 	color: #868c93;
 }
 
+
 /* content page */
 .content-page {
 	background: #fff;
@@ -2886,6 +2887,13 @@ Demo Utils
   font-size: 27px;
   background: #E84D1C;
   border-bottom: none;
+}
+
+.note-item-head h3 {
+	font-weight: 300;
+	font-size: 20px;
+	text-transform: unset;
+	border-bottom: none;
 }
 .pricing-head h4 {
   color: #bac39f;
