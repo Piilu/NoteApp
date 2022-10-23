@@ -7,6 +7,7 @@ using NoteApp.Data;
 namespace NoteApp.Controllers
 {
     [Authorize]
+
     public class DashboardController : Controller
     {
         private readonly ApplicationDbContext context;
