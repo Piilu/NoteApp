@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NoteApp.Data;
+using NoteApp.Data.Entities;
+using NoteApp.Models.Dashboard;
 
 namespace NoteApp.Controllers
 {
@@ -18,13 +20,28 @@ namespace NoteApp.Controllers
         } 
 
         // GET: DashboardController
+        [HttpGet]
         public ActionResult Index()
         {
-            //
             var user = User.Identity.Name;
-            var items = context.Notes.Where(x => x.Id == 1).ToList();
-            return View();
+            var newModel = new IndexModel();
+            newModel.UserNotes = context.Notes.Where(x => x.Id == 1).ToList();
+            return View(newModel);
         }
+
+        [HttpPost]
+        public ActionResult Index(IndexModel model)
+        {
+            Console.WriteLine($"Testing {model.NoteTitle}");
+            context.Notes.Add(new Note
+            {
+                Title = model.NoteTitle,
+                Content = "Test",
+                UserId = 1,
+            });
+            return View(model);
+        }
+
 
         // GET: DashboardController/Details/5
         public ActionResult Note()//int id

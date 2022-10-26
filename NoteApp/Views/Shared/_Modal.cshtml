@@ -1,4 +1,5 @@
-﻿<div class="modal fade" tabindex="-1" role="dialog" id="newNote-modal">
+﻿@model NoteApp.Models.Dashboard.IndexModel
+<div class="modal fade" tabindex="-1" role="dialog" id="newNote-modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="padding:0;margin:1em;margin-bottom:0">
@@ -8,11 +9,11 @@
                 <h3>New note</h3>
             </div>
             <div style="margin:0;" class="modal-body">
-                <form style="margin:0;padding:0" id="account" method="post">
+                <form asp-controller="Dashboard" asp-action="Index" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
                         <label></label>
-                        <input placeholder="Add name" class="form-control" />
+                        <input asp-for="NoteTitle" placeholder="Add name" class="form-control" />
                         <span class="text-danger"></span>
                     </div>
 
