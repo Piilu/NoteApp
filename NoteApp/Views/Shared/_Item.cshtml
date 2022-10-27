@@ -1,21 +1,17 @@
 ﻿@model NoteApp.Data.Entities.Note
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <div class="product-item">
-        <div class="note-item-head row">
-            <div style="float:left;margin-left:1em">
-                <h3><b>@Model.Title</b></h3>
-            </div>
-            <div style="float:right;margin-right:1em">
-                <div class="text-right">
-                   <a style="float:left;margin-right:1em; color:black" href="#"><h3><i class="fa fa-edit"></i></h3></a>
-                   <a style="float:left;" href="#"><h3><i class="fa fa-close"></i></h3></a>
-                </div>
-            </div>
-        </div>
-        <hr style="margin:0; margin-bottom:1.5em" />
-        <div>
-            <p>Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum</p>
-            <a href="javascript:;" class="">See more</a>
-        </div>
-    </div>
+<div class="card shadow" style="width:50vh">
+  <div class="card-body">
+    <h5 class="card-title">@Model.Title</h5>
+
+        @if(@Model.Content ==null)
+        {
+            <p class="card-text opacity-25">Empty Note</p>
+        }
+        else
+        {
+            <p class="card-text">@Model.Content</p>
+        }
+
+        <a href="/Dashboard/Note/@Model.Id" class="btn btn-primary">Button</a>
+  </div>
 </div>

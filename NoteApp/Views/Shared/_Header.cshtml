@@ -4,46 +4,20 @@
 @inject UserManager<User> UserManager
 
 <!-- BEGIN HEADER -->
-<div class="header">
-    <div class="container">
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <a class="site-logo" asp-controller="Dashboard">NoteApp</a>
-        }
-        else
-        {
-            <a class="site-logo" asp-controller="Home">NoteApp</a>
-        }
-
-        <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
-
-        @*<partial name="_TopShoppingCard" />*@
-
-        <!-- BEGIN NAVIGATION -->
-        <div class="header-navigation">
-            <ul>
-                 <partial name="_LoginPartial" />
-                
-
-                <!-- BEGIN TOP SEARCH -->
-                <!--<li class="menu-search">
-                    <span class="sep"></span>
-                    <i class="fa fa-search search-btn"></i>
-                    <div class="search-box">
-                        <form action="#">
-                            <div class="input-group">
-                                <input type="text" placeholder="Search" class="form-control">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="submit">Search</button>
-                                </span>
-                            </div>
-                        </form>
-                    </div>
-                </li>-->
-                <!-- END TOP SEARCH -->
-            </ul>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Movie App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <partial name="_LoginPartial" />
+                </ul>
+            </div>
         </div>
-        <!-- END NAVIGATION -->
-    </div>
-</div>
+    </nav>
+</header>
 <!-- Header END -->

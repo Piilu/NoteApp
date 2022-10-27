@@ -73,26 +73,31 @@ namespace NoteApp.Controllers
         }
 
         // GET: DashboardController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public ActionResult Note(int id)
         {
-            return View();
+            var model = new NoteModel();
+            var noteData = context.Notes.FirstOrDefault(x => x.Id == id);
+            model.Id = noteData.Id;
+            model.Content = noteData.Content;
+            return View(model);
         }
 
         // POST: DashboardController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
+        /*   [HttpPost]
+           [ValidateAntiForgeryToken]
+           public ActionResult Note()
+           {
+               try
+               {
+                   return RedirectToAction(nameof(Index));
+               }
+               catch
+               {
+                   return View();
+               }
+           }
+        */
         // GET: DashboardController/Delete/5
         public ActionResult Delete(int id)
         {
