@@ -25,7 +25,7 @@ namespace NoteApp.Controllers
         {
             var user = User.Identity.Name;
             var newModel = new IndexModel();
-            newModel.UserNotes = context.Notes.Where(x => x.Id == 1).ToList();
+            newModel.UserNotes = context.Notes.Where(x => x.UserId == 1).ToList();
             return View(newModel);
         }
 
@@ -39,6 +39,8 @@ namespace NoteApp.Controllers
                 Content = "Test",
                 UserId = 1,
             });
+            context.SaveChanges();
+
             return View(model);
         }
 

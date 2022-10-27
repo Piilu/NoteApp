@@ -10,7 +10,7 @@
     {
         @foreach (var note in Model.UserNotes)
         {
-            <partial name="_Item" />
+            @Html.Partial("_Item", note)
         }
     }
     else

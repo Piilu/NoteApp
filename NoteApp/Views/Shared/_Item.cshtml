@@ -1,8 +1,9 @@
-﻿<div class="col-md-4 col-sm-6 col-xs-12">
+﻿@model NoteApp.Data.Entities.Note
+<div class="col-md-4 col-sm-6 col-xs-12">
     <div class="product-item">
         <div class="note-item-head row">
             <div style="float:left;margin-left:1em">
-                <h3><b>Test Note Tab</b></h3>
+                <h3><b>@Model.Title</b></h3>
             </div>
             <div style="float:right;margin-right:1em">
                 <div class="text-right">
