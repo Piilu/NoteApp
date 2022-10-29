@@ -2,10 +2,11 @@
 @{
     ViewData["Title"] = "Note View";
 }
+@Html.HiddenFor(x=>x.Note)
+@Html.HiddenFor(x=>x.NoteId)
 
-<div class="text-center border" style="height:80vh">
-   <textarea id="mytextarea">@Model.Content</textarea>
-    @Model.Id
+<div class="text-center" style="height:80vh">
+   <textarea id="mytextarea">@Model.Note.Content</textarea>
 </div>
 
 @section Scripts{

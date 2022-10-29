@@ -13,64 +13,42 @@ namespace NoteApp.Controllers
     public class DashboardController : Controller
     {
         private readonly ApplicationDbContext context;
+        private readonly UserManager<User> userManager;
 
-        public DashboardController(ApplicationDbContext context)
+        public DashboardController(ApplicationDbContext context, UserManager<User> userManager)
         {
             this.context = context;
+            this.userManager = userManager;
         } 
 
         // GET: DashboardController
         [HttpGet]
         public ActionResult Index()
         {
-            var user = User.Identity.Name;
+            var userId = Int32.Parse(userManager.GetUserId(User));
+
             var newModel = new IndexModel();
-            newModel.UserNotes = context.Notes.Where(x => x.UserId == 1).ToList();
+            newModel.UserNotes = context.Notes.Where(x => x.UserId == userId).OrderBy(x=>x.Id).Reverse().ToList();
+            newModel.NoteTitle = "";
             return View(newModel);
         }
 
         [HttpPost]
         public ActionResult Index(IndexModel model)
         {
-            Console.WriteLine($"Testing {model.NoteTitle}");
+            var userId = Int32.Parse(userManager.GetUserId(User));
+
             context.Notes.Add(new Note
             {
                 Title = model.NoteTitle,
-                Content = "Test",
-                UserId = 1,
+                Content = "",
+                UserId = userId,
             });
             context.SaveChanges();
 
-            return View(model);
+            return Redirect("~/Dashboard");
         }
 
-
-        // GET: DashboardController/Details/5
-        public ActionResult Note()//int id
-        {
-            return View();
-        }
-
-        // GET: DashboardController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: DashboardController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         // GET: DashboardController/Edit/5
         [HttpGet]
@@ -78,27 +56,19 @@ namespace NoteApp.Controllers
         {
             var model = new NoteModel();
             var noteData = context.Notes.FirstOrDefault(x => x.Id == id);
-            model.Id = noteData.Id;
-            model.Content = noteData.Content;
+            model.NoteId = noteData.Id;
+            model.Note = noteData;
             return View(model);
         }
 
-        // POST: DashboardController/Edit/5
-        /*   [HttpPost]
-           [ValidateAntiForgeryToken]
-           public ActionResult Note()
-           {
-               try
-               {
-                   return RedirectToAction(nameof(Index));
-               }
-               catch
-               {
-                   return View();
-               }
-           }
-        */
-        // GET: DashboardController/Delete/5
+        [HttpPost]
+        public ActionResult Note(NoteModel model)
+        {
+            context.Notes.Add(model.Note);
+            context.SaveChanges();
+            return View(model);
+        }
+
         public ActionResult Delete(int id)
         {
             return View();

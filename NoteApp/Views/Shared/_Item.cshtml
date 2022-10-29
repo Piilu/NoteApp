@@ -3,7 +3,7 @@
   <div class="card-body">
     <h5 class="card-title">@Model.Title</h5>
 
-        @if(@Model.Content ==null)
+        @if(Model.Content ==null || Model.Content == "")
         {
             <p class="card-text opacity-25">Empty Note</p>
         }
@@ -12,6 +12,6 @@
             <p class="card-text">@Model.Content</p>
         }
 
-        <a href="/Dashboard/Note/@Model.Id" class="btn btn-primary">Button</a>
+        <a href="/Dashboard/Note/@Model.Id" class="btn btn-primary">Open</a>
   </div>
 </div>

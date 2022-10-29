@@ -1,9 +1,11 @@
-﻿namespace NoteApp.Models.Dashboard
+﻿using NoteApp.Data.Entities;
+
+namespace NoteApp.Models.Dashboard
 {
     public class NoteModel
     {
-        public int Id { get; set; }
-        public string Content { get; set; }
 
+        public int NoteId { get; set; }
+        public Note Note { get; set; }
     }
 }
