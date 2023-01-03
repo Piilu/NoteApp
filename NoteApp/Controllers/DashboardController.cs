@@ -29,15 +29,29 @@ namespace NoteApp.Controllers
 
             var newModel = new IndexModel();
             newModel.UserNotes = context.Notes.Where(x => x.UserId == userId).OrderBy(x => x.Id).Reverse().ToList();
-            newModel.NoteTitle = "";
             return View(newModel);
         }
 
+        [HttpGet]
+        public ActionResult Edit()
+        {
+            var model = new EditModel();
+            return View(model);
+
+        }
+
         [HttpPost]
-        public ActionResult Index(IndexModel model)
+        public ActionResult Edit(EditModel model)
         {
             var userId = Int32.Parse(userManager.GetUserId(User));
 
+            //#region Validate
+            //if (model.UserNotes.)
+            //{
+            //    ViewBag.Result = "Title can't be empty";
+            //    return View(model);
+            //}
+            //#endregion
             context.Notes.Add(new Note
             {
                 Title = model.NoteTitle,
@@ -48,7 +62,6 @@ namespace NoteApp.Controllers
 
             return Redirect("~/Dashboard");
         }
-
 
         // GET: DashboardController/Edit/5
         [HttpGet]

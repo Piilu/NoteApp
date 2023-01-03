@@ -1,0 +1,12 @@
+﻿@model NoteApp.Models.Dashboard.EditModel
+
+@{
+    ViewBag.Popup = true;
+    ViewBag.Title = "Create a new note";
+}
+<form asp-action="Edit" asp-controller="Dashboard" method="post">
+    <h4 class="m-0">@ViewBag.Title</h4>
+    <hr />
+        @Html.EditorFor(x=>x.NoteTitle)
+        <button type="submit" class="btn btn-primary">Save changes</button>
+</form>
