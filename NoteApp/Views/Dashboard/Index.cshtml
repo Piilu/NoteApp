@@ -1,12 +1,12 @@
 ﻿@model NoteApp.Models.Dashboard.IndexModel
 @{
-    ViewData["Title"] = "Authorized note view";
+    ViewData["Title"] = "Dashboard";
 }
 
 <partial name="_Modal" />
 <div class="container">
     <button id="add-new-note" style="margin:1em; margin-left:0" class="btn btn-primary"><i class="fa fa-plus"></i> New Note</button>
-    <div class="d-flex justify-content-center flex-wrap" style="gap:2em">
+    <div class="d-flex justify-content-center flex-wrap p-5" style="gap:2em">
         @if (Model.UserNotes.Count != 0)
         {
             @foreach (var note in Model.UserNotes)

@@ -1,9 +1,13 @@
 ﻿@model NoteApp.Data.Entities.Note
-<div class="card shadow" style="width:50vh">
-  <div class="card-body">
-    <h5 class="card-title">@Model.Title</h5>
+<div class="card shadow" style="width:25em">
+    <div class="card-body">
+        <div class="d-flex ">
+            <div><h5 class="card-title">@Model.Title</h5></div>
+            <a href="/Dashboard/Delete/@Model.Id" style="margin-left:auto"><i class="fa-solid fa-xmark"></i></a>
+        </div>
+       
 
-        @if(Model.Content ==null || Model.Content == "")
+        @if (Model.Content == null || Model.Content == "")
         {
             <p class="card-text opacity-25">Empty Note</p>
         }
@@ -13,5 +17,5 @@
         }
 
         <a href="/Dashboard/Note/@Model.Id" class="btn btn-primary">Open</a>
-  </div>
+    </div>
 </div>

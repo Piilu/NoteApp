@@ -19,7 +19,7 @@ namespace NoteApp.Controllers
         {
             this.context = context;
             this.userManager = userManager;
-        } 
+        }
 
         // GET: DashboardController
         [HttpGet]
@@ -28,7 +28,7 @@ namespace NoteApp.Controllers
             var userId = Int32.Parse(userManager.GetUserId(User));
 
             var newModel = new IndexModel();
-            newModel.UserNotes = context.Notes.Where(x => x.UserId == userId).OrderBy(x=>x.Id).Reverse().ToList();
+            newModel.UserNotes = context.Notes.Where(x => x.UserId == userId).OrderBy(x => x.Id).Reverse().ToList();
             newModel.NoteTitle = "";
             return View(newModel);
         }
@@ -69,24 +69,18 @@ namespace NoteApp.Controllers
             return View(model);
         }
 
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+
 
         // POST: DashboardController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        [HttpGet]
+        public ActionResult Delete(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var userId = Int32.Parse(userManager.GetUserId(User));
+            var note = context.Notes.FirstOrDefault(x => x.Id == id && x.UserId == userId);
+            context.Notes.Remove(note);
+            context.SaveChanges();
+
+            return Redirect("~/Dashboard");
         }
     }
 }
