@@ -1,33 +1,66 @@
-﻿@model NoteApp.Models.Dashboard.IndexModel
+﻿@using NoteApp.Extensions
+@using System.Text.RegularExpressions
+@model NoteApp.Models.Dashboard.IndexModel
 @{
     ViewData["Title"] = "Dashboard";
 }
 
-<partial name="_Modal" />
-<div class="container">
-    <button id="add-new-note" style="margin:1em; margin-left:0" class="btn btn-primary"><i class="fa fa-plus"></i> New Note</button>
-    <div class="d-flex justify-content-center flex-wrap p-5" style="gap:2em">
-        @if (Model.UserNotes.Count != 0)
+@Html.CustomValidationSummary()
+<button id="add-new-note" class="btn btn-primary"><i class="fa fa-plus"></i> New Note</button>
+@if (Model.Notes.Count != 0)
+{
+    <div class="d-flex gap-4 mt-3 flex-wrap justify-content-center justify-content-lg-start ">
+        @foreach (var note in Model.Notes)
         {
-            @foreach (var note in Model.UserNotes)
-            {
-                @Html.Partial("_Item", note)
-            }
-        }
-        else
-        {
-            <p>Notes does not exist</p>
+            <div class="card shadow" style="width:25em">
+                <div class="card-body">
+                    <div class="d-flex al">
+                        <div><h5 class="card-title">@note.Title</h5></div>
+                        <a href="/Dashboard/Delete/@note.Id" style="margin-left:auto"><i class="fa-solid fa-xmark"></i></a>
+                    </div>
+
+                    @if (note.Content == null || note.Content == "")
+                    {
+                        <p class="card-text opacity-25">Empty Note</p>
+                    }
+                    else
+                    {
+                        <p class="card-text">@(Regex.Replace(note.Content, "<.*?>", String.Empty).Length > 60 ? $"{Regex.Replace(note.Content, "<.*?>", String.Empty).Substring(0, 60)}..." : $"{Regex.Replace(note.Content, "<.*?>", String.Empty)}")</p>
+                    }
+
+                </div>
+                <div class="p-2">
+                    <a href="/Dashboard/Note/@note.Id" class="btn btn-primary w-100">Open</a>
+                </div>
+            </div>
         }
     </div>
-</div>
+}
+else
+{
+    <div class="text-center opacity-50 mt-auto mt-auto  pt-5">
+        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="/images/no-data.svg" alt="no-data" />
+        <h4>NO DATA</h4>
+    </div>
+}
 
 @section Scripts
-{
-<script>
-    $("#add-new-note").click(function(){
-        $("#newNote-modal").modal('show');
-        console.log("Testing");
-    })
-</script>
+    {
+    <script>
+        $("#add-new-note").click(function () {
+            $.get("/Dashboard/Edit", function (res) {
+
+                if (!res || res.length === 0) return;
+
+                bootbox.dialog({
+                    title: 'Create a new note',
+                    size: "medium",
+                    message: res,
+                });
+
+            }).catch(e => { });
+
+        })
+    </script>
 }
 

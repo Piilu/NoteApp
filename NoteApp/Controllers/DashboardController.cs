@@ -4,7 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NoteApp.Data;
 using NoteApp.Data.Entities;
+using NoteApp.Data.Repositories;
+using NoteApp.Models;
 using NoteApp.Models.Dashboard;
+using NoteApp.Services;
+using System.Threading.Tasks;
 
 namespace NoteApp.Controllers
 {
@@ -12,74 +16,73 @@ namespace NoteApp.Controllers
 
     public class DashboardController : Controller
     {
-        private readonly ApplicationDbContext context;
         private readonly UserManager<User> userManager;
+        private readonly INoteService noteService;
+        private readonly INoteRepository noteRespository;
 
-        public DashboardController(ApplicationDbContext context, UserManager<User> userManager)
+        public DashboardController(UserManager<User> userManager, INoteService noteService, INoteRepository noteRespository)
         {
-            this.context = context;
             this.userManager = userManager;
+            this.noteService = noteService;
+            this.noteRespository = noteRespository;
         }
 
-        // GET: DashboardController
         [HttpGet]
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var userId = Int32.Parse(userManager.GetUserId(User));
-
             var newModel = new IndexModel();
-            newModel.UserNotes = context.Notes.Where(x => x.UserId == userId).OrderBy(x => x.Id).Reverse().ToList();
-            newModel.NoteTitle = "";
+            var userNotes = await noteService.List<NotesListModel>(userId);
+
+            newModel.Notes = userNotes;
             return View(newModel);
         }
 
-        [HttpPost]
-        public ActionResult Index(IndexModel model)
+        [HttpGet]
+        public ActionResult Edit()
         {
-            var userId = Int32.Parse(userManager.GetUserId(User));
+            var model = new EditModel();
+            return View(model);
+        }
 
-            context.Notes.Add(new Note
-            {
-                Title = model.NoteTitle,
-                Content = "",
-                UserId = userId,
-            });
-            context.SaveChanges();
+        [HttpPost]
+        public async Task<ActionResult> Edit(EditModel model)
+        {
+            var note = new Note();
+            note.Title = model.NoteTitle;
+            note.User = await userManager.GetUserAsync(User);
+            await noteRespository.Save(note);
 
             return Redirect("~/Dashboard");
         }
 
-
-        // GET: DashboardController/Edit/5
         [HttpGet]
-        public ActionResult Note(int id)
+        public async Task<ActionResult> Note(int id)
         {
-            var model = new NoteModel();
-            var noteData = context.Notes.FirstOrDefault(x => x.Id == id);
-            model.NoteId = noteData.Id;
-            model.Note = noteData;
-            return View(model);
+            var note = await noteRespository.Get<NoteModel>(id);
+            return View(note);
         }
 
         [HttpPost]
-        public ActionResult Note(NoteModel model)
+        public async Task<ActionResult> Note(NoteModel model)
         {
-            context.Notes.Add(model.Note);
-            context.SaveChanges();
-            return View(model);
+            var note = new Note();
+            note.Id = model.Id;
+            note.Priority = model.Priority;
+            note.Content = model.Content;
+            note.Title = model.Title;
+            note.User = await userManager.GetUserAsync(User);
+
+            await noteRespository.Save(note);
+            return PartialView(model);
         }
 
 
-
-        // POST: DashboardController/Delete/5
         [HttpGet]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var userId = Int32.Parse(userManager.GetUserId(User));
-            var note = context.Notes.FirstOrDefault(x => x.Id == id && x.UserId == userId);
-            context.Notes.Remove(note);
-            context.SaveChanges();
-
+            await noteRespository.Delete(id, userId);
             return Redirect("~/Dashboard");
         }
     }

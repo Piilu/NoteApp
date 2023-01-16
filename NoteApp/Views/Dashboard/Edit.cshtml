@@ -1,0 +1,13 @@
+﻿@model NoteApp.Models.Dashboard.EditModel
+
+@{
+    ViewBag.Popup = true;
+}
+<form asp-action="Edit" asp-controller="Dashboard" method="post">
+    <div class="mb-3 form-group ">
+        @Html.DisplayFor(x=>x.NoteTitle)
+        @Html.EditorFor(x=>x.NoteTitle,new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model =>model.NoteTitle, "", new { @class = "text-danger" })
+    </div>
+    <button type="submit" class="btn btn-primary">Save changes</button>
+</form>

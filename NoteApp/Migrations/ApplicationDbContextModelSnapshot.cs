@@ -140,7 +140,7 @@ namespace NoteApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notes");
+                    b.ToTable("Notes", (string)null);
                 });
 
             modelBuilder.Entity("NoteApp.Data.Entities.Role", b =>

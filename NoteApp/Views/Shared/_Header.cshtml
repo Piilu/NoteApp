@@ -4,20 +4,34 @@
 @inject UserManager<User> UserManager
 
 <!-- BEGIN HEADER -->
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Movie App</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <partial name="_LoginPartial" />
-                </ul>
-            </div>
+<form class="form-inline" id="userLogout" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+</form>
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark box-shadow mb-3">
+    <div class="container">
+        <a class="navbar-brand" href="#">NoteApp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="@Url.Action("Index","Dashboard")">Dashboard</a>
+                </li>
+
+            </ul>
+            <ul class="nav navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">@UserManager.GetUserName(User)</a>
+
+                    <div class="dropdown-menu dropdown-menu-end">
+                      @*  <a href="#" class="dropdown-item">Reports</a>
+                        <a href="#" class="dropdown-item">Settings</a>*@
+                        <div class="dropdown-divider"></div>
+                        <a href="#" id="logout" class="dropdown-item">Logout</a>
+                    </div>
+                </li>
+            </ul>
         </div>
-    </nav>
-</header>
+    </div>
+</nav>
 <!-- Header END -->

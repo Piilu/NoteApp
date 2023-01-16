@@ -1,0 +1,10 @@
+﻿@using NoteApp.Extensions
+
+@model Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary
+
+@if (ViewBag.Result != null)
+{
+	<div class="alert alert-success form-saved hide-in-10000">
+		@ViewBag.Result
+	</div>
+}
