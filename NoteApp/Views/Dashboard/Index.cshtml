@@ -1,4 +1,5 @@
 ﻿@using NoteApp.Extensions
+@using System.Text.RegularExpressions
 @model NoteApp.Models.Dashboard.IndexModel
 @{
     ViewData["Title"] = "Dashboard";
@@ -6,18 +7,17 @@
 
 @Html.CustomValidationSummary()
 <button id="add-new-note" class="btn btn-primary"><i class="fa fa-plus"></i> New Note</button>
-@if (Model.UserNotes.Count != 0)
+@if (Model.Notes.Count != 0)
 {
     <div class="d-flex gap-4 mt-3 flex-wrap justify-content-center justify-content-lg-start ">
-        @foreach (var note in Model.UserNotes)
+        @foreach (var note in Model.Notes)
         {
             <div class="card shadow" style="width:25em">
                 <div class="card-body">
-                    <div class="d-flex ">
+                    <div class="d-flex al">
                         <div><h5 class="card-title">@note.Title</h5></div>
                         <a href="/Dashboard/Delete/@note.Id" style="margin-left:auto"><i class="fa-solid fa-xmark"></i></a>
                     </div>
-
 
                     @if (note.Content == null || note.Content == "")
                     {
@@ -25,10 +25,12 @@
                     }
                     else
                     {
-                        <p class="card-text">@note.Content</p>
+                        <p class="card-text">@(Regex.Replace(note.Content, "<.*?>", String.Empty).Length > 60 ? $"{Regex.Replace(note.Content, "<.*?>", String.Empty).Substring(0, 60)}..." : $"{Regex.Replace(note.Content, "<.*?>", String.Empty)}")</p>
                     }
 
-                    <a href="/Dashboard/Note/@note.Id" class="btn btn-primary">Open</a>
+                </div>
+                <div class="p-2">
+                    <a href="/Dashboard/Note/@note.Id" class="btn btn-primary w-100">Open</a>
                 </div>
             </div>
         }
@@ -51,6 +53,7 @@ else
                 if (!res || res.length === 0) return;
 
                 bootbox.dialog({
+                    title: 'Create a new note',
                     size: "medium",
                     message: res,
                 });

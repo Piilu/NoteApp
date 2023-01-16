@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using NoteApp.Data;
 using Microsoft.AspNetCore.Identity;
 using NoteApp.Data.Entities;
+using NoteApp.Data.Repositories;
+using NoteApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,10 +14,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
-builder.Services.AddIdentity<User,Roles>(options => { options.SignIn.RequireConfirmedAccount = false;options.Password.RequireNonAlphanumeric = false;})
+builder.Services.AddIdentity<User, Roles>(options => { options.SignIn.RequireConfirmedAccount = false; options.Password.RequireNonAlphanumeric = false; })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 // Add services to the container.
+builder.Services.AddScoped<INoteRepository, NoteRepository>();
+builder.Services.AddScoped<INoteService, NoteService>();
+
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddRazorPages();
 builder.Services.ConfigureApplicationCookie(options =>

@@ -12,6 +12,6 @@ namespace NoteApp.Data.Entities
         public string Content { get; set; }
         public string Priority { get; set; }
 
-        public User Users { get; set; }
+        public User User { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace NoteApp.Data
 
             builder.Entity<Note>(b =>
             {
-                b.HasOne(x => x.Users).WithMany(x=>x.Notes).HasForeignKey(x=>x.UserId);
+                b.HasOne(x => x.User).WithMany(x=>x.Notes).HasForeignKey(x=>x.UserId);
             });
 
             builder.Entity<User>(b =>

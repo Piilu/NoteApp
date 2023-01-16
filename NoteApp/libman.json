@@ -13,6 +13,11 @@
     {
       "library": "bootbox.js@6.0.0",
       "destination": "wwwroot/lib/bootbox/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery-ajax-unobtrusive@3.2.6",
+      "destination": "wwwroot/lib/jquery-ajax-unobtrusive/"
     }
   ]
 }
